@@ -119,7 +119,9 @@ class CouchbaseConnection extends Connection
     public function openBucket($name)
     {
         $couchbase = $this->getCouchbase();
-
+        if ($this->bucketPassword === '') {
+        return $couchbase->openBucket($name);
+        }
         return $couchbase->openBucket($name, $this->bucketPassword);
     }
 
@@ -404,7 +406,7 @@ class CouchbaseConnection extends Connection
     /**
      * {@inheritdoc}
      */
-    public function rollBack()
+    public function rollBack($toLevel = null)
     {
         throw new NotSupportedException(__METHOD__);
     }

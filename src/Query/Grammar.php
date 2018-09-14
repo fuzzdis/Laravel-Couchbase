@@ -32,7 +32,7 @@ class Grammar extends IlluminateGrammar
             return $value;
         }
 
-        return $value;
+        return '`'.str_replace('`', '``', $value).'`';
     }
 
     /**

@@ -12,6 +12,7 @@
 
 namespace Ytake\LaravelCouchbase\Events;
 
+use Couchbase\N1qlQuery;
 /**
  * Class QueryPrepared
  *
@@ -19,8 +20,8 @@ namespace Ytake\LaravelCouchbase\Events;
  */
 class QueryPrepared
 {
-    /** @var array */
-    public $object = [];
+    /** @var N1qlQuery */
+    private $object;
 
     /**
      * QueryPrepared constructor.
@@ -30,7 +31,7 @@ class QueryPrepared
     public function __construct($queryObject)
     {
         if ($this->isN1ql($queryObject)) {
-            $this->object = $queryObject->toObject();
+            $this->object = $queryObject;
         }
     }
 
@@ -46,5 +47,12 @@ class QueryPrepared
         }
 
         return false;
+    }
+    /**
+     * @return N1qlQuery|null
+     */
+    public function getQuery()
+    {
+        return $this->object;
     }
 }
