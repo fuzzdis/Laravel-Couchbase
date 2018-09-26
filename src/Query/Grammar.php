@@ -156,4 +156,32 @@ class Grammar extends IlluminateGrammar
 
         return "UPSERT INTO {$table} {$keyValue} VALUES $parameters RETURNING {$returning}";
     }
+    /**
+     * Compile a "where in" clause.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  array  $where
+     * @return string
+     */
+    protected function whereIn(Builder $query, $where)
+    {
+        if (! empty($where['values'])) {
+            return $this->wrap($where['column']).' in ['.$this->parameterize($where['values']).']';
+        }
+        return '0 = 1';
+    }
+    /**
+     * Compile a "where not in" clause.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  array  $where
+     * @return string
+     */
+    protected function whereNotIn(Builder $query, $where)
+    {
+        if (! empty($where['values'])) {
+            return $this->wrap($where['column']).' not in ['.$this->parameterize($where['values']).']';
+        }
+        return '1 = 1';
+    }
 }
