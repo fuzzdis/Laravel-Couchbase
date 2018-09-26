@@ -60,6 +60,20 @@ class Builder extends \Illuminate\Database\Schema\Builder
     }
 
     /**
+     * Modify a table on the schema.
+     *
+     * @param  string    $collection
+     * @param  \Closure  $callback
+     * @return void
+     */
+    public function table($collection, Closure $callback)
+    {
+        $blueprint = $this->createBlueprint($collection);
+        if ($callback) {
+            $callback($blueprint);
+        }
+    }
+    /**
      * needs administrator password, user
      * @param string       $collection
      * @param Closure|null $callback
